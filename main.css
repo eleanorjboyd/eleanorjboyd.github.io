@@ -1,0 +1,387 @@
+.item > .content{
+    width: 100%;
+}
+
+.description {
+    position: relative;
+}
+
+.description button{
+    position: absolute;
+    right:0;
+}
+
+
+#Title {
+    position: relative;
+}
+
+#aboutlink {
+    position: absolute;
+    display: inline-block;
+    left: 66%;
+    bottom: 0;
+    font-size: 0.8em;
+}
+
+#Present {
+    border-width: 0px;
+/*    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;*/
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
+#Transcribe {
+    width: 100%;
+    resize: none;
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+/*    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;*/
+    font-weight: 500;
+    font-size: 1.2em;
+    min-height: 5.5em;
+}
+
+@media only screen and (max-device-width: 768px) {
+    #Present {
+        font-size: 1em;
+    }
+    #Transcribe {
+        font-size: 1em;
+    }
+    #aboutlink {
+        left: 78%;
+    }
+}
+
+#AlignBtn {
+    text-align: right;
+    position: relative;
+}
+
+#numofPhrase, #seedInput {
+    width: 6em
+}
+
+#phraseCount {
+    float: left;
+}
+
+#SettingDevider {
+    margin-top: 5em;
+}
+
+#LogContainer {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#LogDisplay {
+    min-height: 12em;
+    max-height: 15em;
+    font-size: 0.9em;
+    width: 100%;
+    resize: none;
+    overflow: auto;
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+}
+
+#LogDisplay p {
+    margin-top: 0;
+    margin-bottom: 0.1em;
+}
+
+#LogDisplay .yellow {
+    color: black;
+    background-color: yellow;
+}
+
+#LogDisplay .red {
+    background-color: red;
+}
+
+#LogDisplay .redf {
+    color: red;
+}
+
+#LogDisplay .green {
+    background-color: green;
+}
+
+#LogDisplay .blue {
+    background-color: blue;
+}
+
+#LogDisplay .purple {
+    background-color: purple;
+}
+
+#inputJson {
+    display: none;
+    visibility: hidden;
+}
+
+#reference-sec .title {
+    color: #fff;
+}
+
+#reference-sec .content {
+    font-style: italic;
+}
+
+:root {
+	--transition-1: all 0.3s ease-in-out;
+	--transition-2: all 0.2s ease-in-out;
+}
+
+html {
+	font-size: 1rem;
+	font-family: "PT Sans", sans-serif;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.header {
+	text-align: center;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-webkit-touch-callout: none;
+}
+
+.no_result {
+	margin: 0.3rem;
+	padding: 0.3rem 0.5rem;
+	list-style: none;
+	text-align: left;
+	font-size: 1rem;
+	color: #212121;
+	transition: all 0.1s ease-in-out;
+	border-radius: 0.35rem;
+	background-color: rgba(255, 255, 255, 1);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	transition: all 0.2s ease;
+	outline: none;
+}
+
+h1 {
+	color: rgba(255, 122, 122, 1);
+	transition: var(--transition-1);
+}
+
+h1 > a {
+	text-decoration: none;
+	color: rgba(255, 122, 122, 1);
+}
+
+h1 > a::selection {
+	color: rgb(255, 122, 122);
+}
+
+h4 {
+	margin-bottom: 5px;
+	color: #ffc6c6;
+}
+
+h4::selection {
+	color: #ffc6c6;
+}
+
+.mode {
+	margin-top: 20px;
+}
+
+.toggle {
+	display: flex;
+	border: 1px solid #ffc6c6;
+	height: 35px;
+	width: 120px;
+	border-radius: 50px;
+	justify-content: flex-start;
+	align-content: center;
+	transition: var(--transition-2);
+}
+
+.toggler {
+	display: grid;
+	cursor: pointer;
+	background-color: rgba(255, 198, 198, 1);
+	color: #fff;
+	height: 25px;
+	width: 60px;
+	border-radius: 50px;
+	margin: 5px;
+	text-align: center;
+	align-content: center;
+	align-self: flex-start;
+	transition: var(--transition-2);
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-webkit-touch-callout: none;
+}
+
+.toggler:hover {
+	width: 65px;
+	background-color: rgba(255, 122, 122, 0.7);
+}
+
+.toggler::selection {
+	color: #fff;
+}
+
+.strict {
+	display: inline;
+}
+
+.loose {
+	display: inline;
+}
+
+.selection {
+	margin-top: 25vh;
+	font-size: 2rem;
+	font-weight: bold;
+	color: #ffc6c6;
+	transition: var(--transition-1);
+}
+
+.selection::selection {
+	color: #64ceaa;
+}
+
+@media only screen and (max-width: 600px) {
+	.selection {
+		margin-top: 15vh;
+	}
+}
+
+.autoComplete_wrapper {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .autoComplete_wrapper > input {
+    height: 3rem;
+    width: 370px;
+    margin: 0;
+    padding: 0 2rem 0 3.2rem;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    font-size: 1rem;
+    text-overflow: ellipsis;
+    color: rgba(255, 122, 122, 0.3);
+    outline: none;
+    border-radius: 10rem;
+    border: 0.05rem solid rgba(255, 122, 122, 0.5);
+    background-image: url(./images/search.svg);
+    background-size: 1.4rem;
+    background-position: left 1.05rem top 0.8rem;
+    background-repeat: no-repeat;
+    background-origin: border-box;
+    background-color: #fff;
+    transition: all 0.4s ease;
+    -webkit-transition: all -webkit-transform 0.4s ease;
+  }
+  
+  .autoComplete_wrapper > input::placeholder {
+    color: rgba(255, 122, 122, 0.5);
+    transition: all 0.3s ease;
+    -webkit-transition: all -webkit-transform 0.3s ease;
+  }
+  
+  .autoComplete_wrapper > input:hover::placeholder {
+    color: rgba(255, 122, 122, 0.6);
+    transition: all 0.3s ease;
+    -webkit-transition: all -webkit-transform 0.3s ease;
+  }
+  
+  .autoComplete_wrapper > input:focus::placeholder {
+    padding: 0.1rem 0.6rem;
+    font-size: 0.95rem;
+    color: rgba(255, 122, 122, 0.4);
+  }
+  
+  .autoComplete_wrapper > input:focus::selection {
+    background-color: rgba(255, 122, 122, 0.15);
+  }
+  
+  .autoComplete_wrapper > input::selection {
+    background-color: rgba(255, 122, 122, 0.15);
+  }
+  
+  .autoComplete_wrapper > input:hover {
+    color: rgba(255, 122, 122, 0.8);
+    transition: all 0.3s ease;
+    -webkit-transition: all -webkit-transform 0.3s ease;
+  }
+  
+  .autoComplete_wrapper > input:focus {
+    color: rgba(255, 122, 122, 1);
+    border: 0.06rem solid rgba(255, 122, 122, 0.8);
+  }
+  
+  .autoComplete_wrapper > ul {
+    position: absolute;
+    max-height: 226px;
+    overflow-y: scroll;
+    box-sizing: border-box;
+    left: 0;
+    right: 0;
+    margin: 0.5rem 0 0 0;
+    padding: 0;
+    z-index: 1;
+    list-style: none;
+    border-radius: 0.6rem;
+    background-color: #fff;
+    border: 1px solid rgba(33, 33, 33, 0.07);
+    box-shadow: 0 3px 6px rgba(149, 157, 165, 0.15);
+    outline: none;
+    transition: opacity 0.15s ease-in-out;
+    -moz-transition: opacity 0.15s ease-in-out;
+    -webkit-transition: opacity 0.15s ease-in-out;
+  }
+  
+  .autoComplete_wrapper > ul[hidden],
+  .autoComplete_wrapper > ul:empty {
+    display: block;
+    opacity: 0;
+    transform: scale(0);
+  }
+  
+  .autoComplete_wrapper > ul > li {
+    margin: 0.3rem;
+    padding: 0.3rem 0.5rem;
+    text-align: left;
+    font-size: 1rem;
+    color: #212121;
+    border-radius: 0.35rem;
+    background-color: rgba(255, 255, 255, 1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.2s ease;
+  }
+  
+  .autoComplete_wrapper > ul > li mark {
+    background-color: transparent;
+    color: rgba(255, 122, 122, 1);
+    font-weight: bold;
+  }
+  
+  .autoComplete_wrapper > ul > li:hover {
+    cursor: pointer;
+    background-color: rgba(255, 122, 122, 0.15);
+  }
+  
+  .autoComplete_wrapper > ul > li[aria-selected="true"] {
+    background-color: rgba(255, 122, 122, 0.15);
+  }
+
+  
