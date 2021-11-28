@@ -24,7 +24,7 @@ var ItemJson = { Transcribe: [], Action: [] };
 var ItemLog = "";
 var CurrentJson;
 var DefaultName = "TextTest"
-var AutocompleteCount =0;
+var AutocompleteCount = 0;
 var AutocompleteList = []
 
 //logic vars
@@ -44,8 +44,6 @@ $('.ui.accordion')
      allphrases = data.split('\n');
      allPhrasesBySpace = data.split(' ');
  //    allPhrasesBySpace = allPhrasesBySpace.split('\n');
- //    console.log(allphrases);
-     //console.log(allPhrasesBySpace);
      Allphrases = allphrases;
  //    shuffle(allphrases);
      PresentString = allphrases[phrasecount].replace(/^\s+|\s+$/g, '');
@@ -128,14 +126,13 @@ function autocompleteProcessFile(e) {
         results;
     if (file && file.length) {
         allphrases = file.split("\n");
-        //console.log(allphrases, Array.isArray(allphrases))
         autocompleteWords = [...new Set(allphrases)]; 
     }
     setupAutocomplete();
 }
 let restOfString = ""
 function setupAutocomplete() {
-    console.log("Autocomplete is setup ");
+    console.log("Autocomplete is setup");
     restOfString = "";
     const autoCompleteJS = new autoComplete({
         placeHolder: "begin typing....",
@@ -144,15 +141,12 @@ function setupAutocomplete() {
             cache: true,
         },
         query: (input) => {
-            console.log("in", input)
             const wordArray = input.split(" ");
-            console.log(wordArray.at(-1));
             const currString = wordArray.at(-1);
             wordArray.pop();
             if (wordArray.length > 0) {
                 restOfString = wordArray.join(" ");
             }
-            console.log("Input rest of string", restOfString);
             return currString;
         },
 
@@ -307,7 +301,6 @@ $("#autoComplete").bind("keyup click focus input propertychange", function() {
     if (!disabled) {
         $("#autoComplete").prop('disabled', true);		// if not disabled, disable
         document.getElementById("DisableStatus").innerHTML = "Disabled";
-        console.log(timeOutInMil, "tom");
         if (timeOutInMil > 0) {
             document.getElementById("DisableStatus").style.backgroundColor = "#fc2403";
         }
@@ -331,16 +324,13 @@ function sleep(milliseconds) {
 }
 
 $("#autoComplete").keypress(function(){
-    console.log("here");
     var key = window.event.keyCode;
 
-    console.log(key);     // ************* MUC for debugging, DELETE LATER *************
+    //console.log(key);     // ************* MUC for debugging, DELETE LATER *************
 
     if (key == 92){ // enter pressed
-        console.log("KP")
         if ($("#EnterNext").prop("checked")){
             $("#Next").click();
-            console.log("next phrase");
             restOfString = "";
             return false;
         }
@@ -349,11 +339,17 @@ $("#autoComplete").keypress(function(){
 })
 
 $("#Next").click(function() {
+    restOfString = ""
     if ( !$("#autoComplete").val() ) return;
     res = getGuessResult(PresentString, tsequence[tsequence.length - 1]);
     ItemLog = ("<p>Change Result: INF " + res[0] + " IF " + IF + " C " + res[1] + "</p>" + ItemLog);
-
-    ItemJson["Trial"] = phrasecount;
+    if ($("#PracticeTrial").prop("checked")){
+        console.log("Just Practice")
+        ItemJson["Practice"] = "1";
+    } else {
+        ItemJson["Practice"] = "0";
+    }
+    
     ItemJson["Present"] = PresentString;
     ItemJson["IF"] = IF, ItemJson["INF"] = res[0], ItemJson["C"] = res[1];
     ItemJson["CER"] = (IF/(IF+res[1]+res[0])).toFixed(3)
@@ -362,12 +358,22 @@ $("#Next").click(function() {
     ItemJson["Transcribed"] = tsequence[tsequence.length - 1];
     ItemJson["AC"] = AutocompleteCount;
     ItemJson["ACLIST"] = AutocompleteList.toString();
+    console.log("len", AutocompleteList.length)
+    allAutocompleteChars = 0
+    for (i = 0; i < AutocompleteList.length; i++) {
+        wordLen = AutocompleteList[i].length - 1
+        allAutocompleteChars = allAutocompleteChars + wordLen
+        console.log("AC", AutocompleteList[i], AutocompleteList[i].length)
+    }
+    ItemJson["AvgACWordLen"] = (allAutocompleteChars/AutocompleteList.length).toFixed(3)
     ItemJson["Timeout"] = timeOutInMil;
-    console.log("ij", ItemJson);
+    let c = res[1]
+    ItemJson["TotACRate"] = (allAutocompleteChars / c).toFixed(3)
     let ts = ItemJson["Transcribe"]
-    ItemJson["Time"] = ts[ts.length-1].TimeStamp - ts[0].TimeStamp;
+    time = ts[ts.length-1].TimeStamp - ts[0].TimeStamp;
+    ItemJson["Time"] = time
+    ItemJson["WPM"] = ((c/5) / (time/60000)).toFixed(3)
     AllJson.push(JSON.parse(JSON.stringify(ItemJson)));
-    console.log("alljson", AllJson)
     ItemJson = { Transcribe: [], Action: [] };
 
     clearContent();
@@ -624,10 +630,6 @@ function finalize(align1, align2) {
         }
     }
 
-//    console.log("a1: %c" + align1, "color: #9e42f4")
-//    console.log("sb: " + symbol )
-//    console.log("a2: %c" + align2, "color: #9e42f4")
-
     return [align1, symbol, align2]
 }
 
@@ -736,7 +738,6 @@ function ENWalignment(seq1, seq2) {
         align2 += seq2[j - 1]
         j -= 1
     }
-//    console.log(align1, align2);
 
     return finalize(align1, align2)
 }
@@ -752,16 +753,24 @@ $("#Download").click(function(){
         fname = $("#Filename").val()
 
     if ($("#Selectformat").val() == 0){
+        saveJsonTranscript = []
+        saveJsonAction = []
         for (var i = 0; i < CurrentJson.length; i++) {
-                CurrentJson[i].Transcribe = ""
-                CurrentJson[i].Action = ""
+            saveJsonTranscript.push(CurrentJson[i].Transcribe)
+            saveJsonAction.push(CurrentJson[i].Action)
+            CurrentJson[i].Transcribe = ""
+            CurrentJson[i].Action = ""
         }
-
         download(fname+".json", JSON.stringify(CurrentJson, null, '\t'));
+        for (var i = 0; i < CurrentJson.length; i++) {
+            CurrentJson[i].Transcribe = saveJsonTranscript[i]
+            CurrentJson[i].Action = saveJsonAction[i]
+        }
+        console.log("json saved")
     } else if ($("#Selectformat").val() == 1){
-        console.log("CSV")
         var csv = JsonToCSV(CurrentJson)
         download(fname+".csv", csv);
+        console.log("csv saved")
     } else {
         var xml = JsonToXml(CurrentJson)
         download(fname+".xml", xml)
@@ -862,15 +871,12 @@ function JsonToCSV(json){
     //HIR: human input ratio   MIR: machine input ratio
     //rate
     //AE: action efficiency  CE: correct efficiency  TE: transcribe efficiency
-    var csv = "Trial, Seconds, TIME_DELAY, AUTOCOMPLETE, correct_time, entry_time, Tlen, Plen, TCC, IF, INF, C, WPM, TCCPM, AC, DAC, IAC, SAC, UER, CER, TER, CPA, TPA, CPC, CPE, AE, CE, EE, TE, IFc, IFe\n"
-    console.log(json)
+    var csv = "Trial, Practice?, Seconds, TIME_DELAY, ACUseCount, ACAvgWordLen, ACRate, WPM, correct_time, entry_time, Tlen, Plen, TCC, IF, INF, C, WPM, TCCPM, AC, DAC, IAC, SAC, UER, CER, TER, CPA, TPA, CPC, CPE, AE, CE, EE, TE, IFc, IFe\n"
     for (var j = 0; j < json.length; ++j){
         let item = json[j]
         let ts = item.Transcribe, actions = item.Action
-        console.log("item", item)
         if (ts.length == 0) continue;
         let time = (ts[ts.length-1].TimeStamp - ts[0].TimeStamp) / 1000, fix_time = 0, delete_time = 0
-
         let Tlen = ts[ts.length-1].Text.length
         let AC = actions.length, DAC = 0, IAC = 0, SAC = 0
         let TCC = Tlen + item.IF*2
@@ -908,13 +914,14 @@ function JsonToCSV(json){
         FE = item.IF / Math.max(fix_time, 1e-10)
         IE = (Tlen+item.IF-ts[0].Text.length) / insert_time
         console.log("ACList", item.ACLIST)
+        console.log("autocomplete count", item.AC, AutocompleteCount)
 
-        csv += [j, time, item.Timeout, item.AC, fix_time, insert_time, Tlen, item.Present.length, TCC, item.IF, item.INF, item.C, WPM, TCCPM, AC, DAC, IAC, SAC, item.UER, item.CER, item.TER, CPA, TPA, FPA, IPA, AE, FE, IE, TE, IFc, (item.IF-IFc)].map(function(n){return Number(n).toFixed(2)}).join(',') + '\n'
+        csv += [j,item.Practice, time, item.Timeout, item.AC, item.AvgACWordLen, item.TotACRate, item.WPM, fix_time, insert_time, Tlen, item.Present.length, TCC, item.IF, item.INF, item.C, WPM, TCCPM, AC, DAC, IAC, SAC, item.UER, item.CER, item.TER, CPA, TPA, FPA, IPA, AE, FE, IE, TE, IFc, (item.IF-IFc)].map(function(n){return Number(n).toFixed(2)}).join(',') + '\n'
     }
     return csv
 }
 
-//random shuffle array with a seed
+//frandom shuffle array with a seed
 //https://github.com/yixizhang/seed-shuffle/blob/master/index.js
 function seedshuffle(array, seed) {
     let currentIndex = array.length, temporaryValue, randomIndex;
