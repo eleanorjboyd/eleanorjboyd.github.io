@@ -177,11 +177,24 @@ function setupAutocomplete() {
                     if (event.keyCode == 9) {
                         console.log("select tab")
                         autoCompleteJS.select(0);
+                        event.preventDefault();
                     }
-                    if (event.keyCode == 13) {
+                    else if (event.keyCode == 13) {
                         autoCompleteJS.select();
                     }
-                    autoCompleteJS.next();
+                    else if (event.keyCode == 220){
+                        if ($("#EnterNext").prop("checked")){
+                            $("#Next").click();
+                            restOfString = "";
+                            AutocompleteCount = 0;
+                            AutocompleteList = []
+                        }
+                        event.preventDefault();
+                    } else if (event.keyCode == 38) {
+                        autoCompleteJS.previous();
+                    }else {
+                        autoCompleteJS.next();
+                    }
                     
                 }
             }
