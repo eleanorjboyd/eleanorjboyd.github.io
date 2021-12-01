@@ -332,6 +332,8 @@ $("#autoComplete").keypress(function(){
         if ($("#EnterNext").prop("checked")){
             $("#Next").click();
             restOfString = "";
+            AutocompleteCount = 0;
+            AutocompleteList = []
             return false;
         }
     }
@@ -377,6 +379,8 @@ $("#Next").click(function() {
     ItemJson = { Transcribe: [], Action: [] };
 
     clearContent();
+    AutocompleteCount = 0
+    AutocompleteList = []
 
     phrasecount += 1
     totalcount += 1
