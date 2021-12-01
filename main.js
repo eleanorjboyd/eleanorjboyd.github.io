@@ -172,10 +172,23 @@ function setupAutocomplete() {
                 selection: (event) => {
                     const selection = event.detail.selection.value;
                     autoCompleteJS.input.value = selection;
+                },
+                keydown: (event) => {
+                    if (event.keyCode == 9) {
+                        console.log("select tab")
+                        autoCompleteJS.select(0);
+                    }
+                    if (event.keyCode == 13) {
+                        autoCompleteJS.select();
+                    }
+                    autoCompleteJS.next();
+                    
                 }
             }
         }
     });
+
+
 
     //Eleanor's Autcomplete work
     autoCompleteJS.input.addEventListener("selection", function (event) {
@@ -289,6 +302,7 @@ $("#autoComplete").bind("keyup click focus input propertychange", function() {
     //Transcribe
 
     var disabled = false;
+
     
 
     window.addEventListener('keydown', function(e) {
@@ -322,11 +336,20 @@ function sleep(milliseconds) {
     currentDate = Date.now();
   } while (currentDate - date < milliseconds);
 }
+$("#autoComplete").keydown(function(){
+    var key = window.event.keyCode;
+    if (key == 9) {
+        console.log("tab");
+        window.event.stop();
+    }
+    //window.event
+    return true;
+})
 
-$("#autoComplete").keypress(function(){
+$("#autoComplete").keyup(function(){
     var key = window.event.keyCode;
 
-    //console.log(key);     // ************* MUC for debugging, DELETE LATER *************
+    console.log(key);     // ************* MUC for debugging, DELETE LATER *************
 
     if (key == 92){ // enter pressed
         if ($("#EnterNext").prop("checked")){
